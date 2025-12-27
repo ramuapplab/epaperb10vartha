@@ -752,7 +752,7 @@
                 <button class="social-icon" onclick="window.open('https://wa.me/919000607207', '_blank')" title="WhatsApp">💬</button>
             </div>
 
-            <div class="page-indicators">
+            <div class="page-indicators" id="footerPageButtons">
                 <button class="page-indicator" onclick="jumpToPage(1)" id="pageBtn1">01</button>
                 <button class="page-indicator" onclick="jumpToPage(2)" id="pageBtn2">02</button>
                 <button class="page-indicator" onclick="jumpToPage(3)" id="pageBtn3">03</button>
@@ -937,27 +937,23 @@
             await loadPdfPage(date, 1);
         }
 
-        // LOAD PDF PAGE - FIXED VERSION
+        // LOAD PDF PAGE - FIXED VERSION (For separate files page1.pdf, page2.pdf)
         async function loadPdfPage(date, pageNum) {
             try {
                 document.getElementById('loadingMsg').style.display = 'block';
                 document.getElementById('pdfCanvas').style.display = 'none';
 
-                // Fix path: ensure trailing slash if missing
+                // Construct filename dynamically: page1.pdf, page2.pdf, etc.
                 const basePath = PDF_BASE_PATH.endsWith('/') ? PDF_BASE_PATH : PDF_BASE_PATH + '/';
                 const pdfUrl = `${basePath}${date}/page${pageNum}.pdf`;
                 
                 const pdf = await pdfjsLib.getDocument(pdfUrl).promise;
-                currentPdfDoc = pdf;
+                currentPdfDoc = pdf; // This is the file for JUST this page
 
-                // Validate page number
-                if (pageNum > pdf.numPages) {
-                    pageNum = pdf.numPages;
-                }
+                // We always render Page 1 of the loaded file because the file (page2.pdf)
+                // only contains that single page.
+                const page = await pdf.getPage(1);
 
-                currentPageNum = pageNum;
-
-                const page = await pdf.getPage(pageNum);
                 const canvas = document.getElementById('pdfCanvas');
                 const ctx = canvas.getContext('2d');
                 const viewport = page.getViewport({ scale: 1.5 * zoomLevel });
@@ -970,16 +966,17 @@
                     viewport: viewport
                 }).promise;
 
-                // Update page counter
-                document.getElementById('pageCounter').textContent = `Page ${pageNum} of ${pdf.numPages}`;
+                // Update page counter to show "Page X of Total" using the JSON count
+                const totalPages = currentEdition ? currentEdition.pageCount : 1;
+                document.getElementById('pageCounter').textContent = `Page ${pageNum} of ${totalPages}`;
 
                 document.getElementById('loadingMsg').style.display = 'none';
                 document.getElementById('pdfCanvas').style.display = 'block';
 
                 // Update page buttons
-                updatePageButtons(pdf.numPages);
+                updatePageButtons(totalPages);
             } catch (error) {
-                showError(`Error loading PDF: ${error.message}`);
+                showError(`Error loading page ${pageNum}: ${error.message}`);
                 document.getElementById('loadingMsg').style.display = 'none';
                 console.error(error);
             }
@@ -991,37 +988,52 @@
             document.getElementById('prevArrow').addEventListener('click', prevPage);
         }
 
-        // PAGE NAVIGATION
+        // PAGE NAVIGATION (Updated for separate files logic)
         function nextPage() {
-            if (currentPdfDoc && currentPageNum < currentPdfDoc.numPages) {
-                loadPdfPage(currentEdition.date, currentPageNum + 1);
+            // Check against total pages from JSON, not the current PDF file
+            const totalPages = currentEdition ? currentEdition.pageCount : 1;
+            if (currentPageNum < totalPages) {
+                currentPageNum++; // Increment our tracker
+                loadPdfPage(currentEdition.date, currentPageNum);
             }
         }
 
         function prevPage() {
             if (currentPageNum > 1) {
-                loadPdfPage(currentEdition.date, currentPageNum - 1);
+                currentPageNum--; // Decrement our tracker
+                loadPdfPage(currentEdition.date, currentPageNum);
             }
         }
 
         // JUMP TO PAGE
         function jumpToPage(pageNum) {
-            if (currentPdfDoc && pageNum > 0 && pageNum <= currentPdfDoc.numPages) {
+            const totalPages = currentEdition ? currentEdition.pageCount : 1;
+            if (pageNum > 0 && pageNum <= totalPages) {
+                currentPageNum = pageNum;
                 loadPdfPage(currentEdition.date, pageNum);
             }
         }
 
         // UPDATE PAGE BUTTONS
         function updatePageButtons(totalPages) {
-            for (let i = 1; i <= 4; i++) {
-                const btn = document.getElementById(`pageBtn${i}`);
-                if (i <= totalPages) {
-                    btn.style.opacity = '1';
-                    btn.style.cursor = 'pointer';
-                } else {
-                    btn.style.opacity = '0.3';
-                    btn.style.cursor = 'not-allowed';
+            // Re-generate buttons if needed, or just update style
+            const container = document.getElementById('footerPageButtons');
+            container.innerHTML = ''; // Clear old buttons
+            
+            for (let i = 1; i <= totalPages; i++) {
+                const btn = document.createElement('button');
+                btn.className = 'page-indicator';
+                btn.id = `pageBtn${i}`;
+                btn.textContent = i < 10 ? '0' + i : i;
+                btn.onclick = () => jumpToPage(i);
+                
+                // Highlight current page
+                if (i === currentPageNum) {
+                    btn.style.background = 'white';
+                    btn.style.color = 'var(--secondary)';
                 }
+                
+                container.appendChild(btn);
             }
         }
 
