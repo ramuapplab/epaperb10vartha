@@ -106,7 +106,6 @@
             width: auto;
             max-width: 250px;
             object-fit: contain;
-            display: block;
         }
 
         /* Menu Button */
@@ -258,7 +257,7 @@
         .pdf-viewer-container {
             position: relative;
             background: white;
-            min-height: calc(100vh - 75px - 180px - 80px);
+            min-height: calc(100vh - 75px - 180px);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -312,34 +311,30 @@
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
-        /* Selector Section - NOW AT BOTTOM */
+        /* Selector Section Under header */
         .selector-section {
             background: white;
             padding: 20px;
-            border-top: 2px solid var(--border);
-            position: fixed;
-            bottom: 180px;
-            left: 0;
-            right: 0;
-            z-index: 99;
-            width: 100%;
+            border-bottom: 2px solid var(--border);
+            position: sticky;
+            top: 75px;
+            z-index: 100;
         }
 
         .selector-content {
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
             gap: 15px;
-            max-width: 1200px;
-            margin: 0 auto;
         }
 
         .edition-selector {
             display: flex;
             align-items: center;
             gap: 12px;
-            flex: 0 1 auto;
+            flex: 1;
+            min-width: 250px;
         }
 
         .edition-selector label {
@@ -349,13 +344,13 @@
         }
 
         .edition-dropdown {
+            flex: 1;
             padding: 10px 15px;
             border: 2px solid var(--border);
             border-radius: 6px;
             font-size: 14px;
             cursor: pointer;
             transition: border-color 0.3s;
-            min-width: 200px;
         }
 
         .edition-dropdown:focus {
@@ -364,11 +359,19 @@
         }
 
         .info-display {
-            display: none;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
         }
 
         .badge {
-            display: none;
+            display: inline-block;
+            padding: 8px 15px;
+            background: var(--primary);
+            color: white;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
         }
 
         /* FIXED FOOTER */
@@ -726,6 +729,22 @@
 
     <div class="main-content">
         <div id="home" class="content-section active">
+            <div class="selector-section">
+                <div class="selector-content">
+                    <div class="edition-selector">
+                        <label for="editionSelect">Select Edition:</label>
+                        <select id="editionSelect" class="edition-dropdown">
+                            <option>Loading editions...</option>
+                        </select>
+                    </div>
+
+                    <div class="info-display">
+                        <span id="categoryInfo" class="badge">Category: Loading...</span>
+                        <span id="pageCountInfo" class="badge">Pages: Loading...</span>
+                    </div>
+                </div>
+            </div>
+
             <div class="pdf-viewer-container">
                 <button class="nav-arrow nav-arrow-left" id="prevArrow" title="Previous Page">⏮</button>
 
@@ -740,17 +759,6 @@
 
             <div style="text-align: center; padding: 20px; background: var(--light); font-size: 14px; color: var(--text);">
                 <span id="pageCounter">Page 1 of 1</span>
-            </div>
-
-            <div class="selector-section">
-                <div class="selector-content">
-                    <div class="edition-selector">
-                        <label for="editionSelect">Select Edition:</label>
-                        <select id="editionSelect" class="edition-dropdown">
-                            <option>Loading editions...</option>
-                        </select>
-                    </div>
-                </div>
             </div>
         </div>
 
