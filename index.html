@@ -955,7 +955,50 @@
         }
 
         // LOAD PDF PAGE
-        async function loadPdfPage(date, pageNum) {
+        // LOAD PDF PAGE - FIXED VERSION
+async function loadPdfPage(date, pageNum) {
+    try {
+        document.getElementById('loadingMsg').style.display = 'block';
+        document.getElementById('pdfCanvas').style.display = 'none';
+
+        const pdfUrl = `${PDF_BASE_PATH}${date}/page${pageNum}.pdf`;
+        const pdf = await pdfjsLib.getDocument(pdfUrl).promise;
+        currentPdfDoc = pdf;
+
+        // Validate page number
+        if (pageNum > pdf.numPages) {
+            pageNum = pdf.numPages;
+        }
+
+        currentPageNum = pageNum;
+
+        const page = await pdf.getPage(pageNum);
+        const canvas = document.getElementById('pdfCanvas');
+        const ctx = canvas.getContext('2d');
+        const viewport = page.getViewport({ scale: 1.5 * zoomLevel });
+
+        canvas.width = viewport.width;
+        canvas.height = viewport.height;
+
+        await page.render({
+            canvasContext: ctx,
+            viewport: viewport
+        }).promise;
+
+        // Update page counter - FIXED
+        document.getElementById('pageCounter').textContent = `Page ${pageNum} of ${pdf.numPages}`;
+
+        document.getElementById('loadingMsg').style.display = 'none';
+        document.getElementById('pdfCanvas').style.display = 'block';
+
+        // Update page buttons
+        updatePageButtons(pdf.numPages);
+    } catch (error) {
+        showError(`Error loading PDF: ${error.message}`);
+        document.getElementById('loadingMsg').style.display = 'none';
+    }
+}
+
             try {
                 document.getElementById('loadingMsg').style.display = 'block';
                 document.getElementById('pdfCanvas').style.display = 'none';
