@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="B10 Vartha - Daily Telugu News E-Paper">
     <title>B10 Vartha - Daily Telugu News E-Paper</title>
-    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-    <script>pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';</script>
-    
+    <script>
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    </script>
     <style>
         :root {
             --primary: #2f96f0;
@@ -32,6 +32,13 @@
             color: var(--text);
             background: var(--bg);
             line-height: 1.6;
+            overflow-x: hidden; /* Fixes side-scrolling on mobile */
+        }
+
+        body {
+            padding-top: 75px;
+            padding-bottom: 180px;
+            padding-bottom: 0 !important; /* Removes the "dragged down" look */
         }
 
         .container {
@@ -49,9 +56,9 @@
             background: white;
             color: white;
             padding: 8px 0;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             z-index: 1000;
-            border-bottom: 1px solid #ddd;
+            border-bottom: 1px solid var(--border);
         }
 
         .header-content {
@@ -128,7 +135,7 @@
             width: 300px;
             height: 100vh;
             background: white;
-            box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
             transition: left 0.3s ease;
             z-index: 1100;
             overflow-y: auto;
@@ -215,7 +222,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0,0,0,0.5);
+            background: rgba(0, 0, 0, 0.5);
             display: none;
             z-index: 1050;
         }
@@ -230,7 +237,7 @@
             padding-bottom: 180px;
         }
 
-        /* Content sections (hidden by default) */
+        /* Content sections hidden by default */
         .content-section {
             display: none;
             padding: 20px 0;
@@ -301,10 +308,10 @@
             max-width: 100%;
             max-height: calc(100vh - 150px);
             border-radius: 4px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
-        /* Selector Section (Under header) */
+        /* Selector Section Under header */
         .selector-section {
             background: white;
             padding: 20px;
@@ -377,6 +384,12 @@
             color: white;
             padding: 20px 0;
             z-index: 1000;
+            transform: translateY(100%);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .footer.visible {
+            transform: translateY(0);
         }
 
         .footer-content {
@@ -417,10 +430,10 @@
         .footer-copyright {
             text-align: center;
             padding: 12px 20px;
-            border-top: 1px solid rgba(255,255,255,0.1);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
             font-size: 12px;
             font-weight: 500;
-            background: rgba(0,0,0,0.1);
+            background: rgba(0, 0, 0, 0.1);
         }
 
         .social-icons {
@@ -431,7 +444,7 @@
         .social-icon {
             width: 35px;
             height: 35px;
-            background: rgba(255,255,255,0.2);
+            background: rgba(255, 255, 255, 0.2);
             border: none;
             border-radius: 50%;
             color: white;
@@ -444,7 +457,7 @@
         }
 
         .social-icon:hover {
-            background: rgba(255,255,255,0.4);
+            background: rgba(255, 255, 255, 0.4);
         }
 
         .page-indicators {
@@ -455,7 +468,7 @@
         .page-indicator {
             width: 30px;
             height: 30px;
-            background: rgba(255,255,255,0.3);
+            background: rgba(255, 255, 255, 0.3);
             border: 1px solid white;
             border-radius: 4px;
             color: white;
@@ -516,7 +529,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0,0,0,0.7);
+            background: rgba(0, 0, 0, 0.7);
             z-index: 2000;
             align-items: center;
             justify-content: center;
@@ -557,7 +570,7 @@
                 height: 35px;
                 max-width: 180px;
             }
-            
+
             .header-content {
                 padding: 0 10px;
             }
@@ -617,6 +630,58 @@
             border-radius: 6px;
             margin: 20px;
         }
+
+        /* ---- NEW MOBILE & LAYOUT FIXES ---- */
+        html, body {
+            overflow-x: hidden; /* Fixes side-scrolling on mobile */
+        }
+
+        body {
+            padding-bottom: 0 !important; /* Removes the "dragged down" look */
+        }
+
+        /* New Navigation Icons */
+        .nav-arrow {
+            background: rgba(0, 0, 0, 0.4) !important;
+            border-radius: 8px !important;
+            width: 45px !important;
+            height: 60px !important;
+        }
+
+        /* Hidden Footer Setup */
+        .footer {
+            transform: translateY(100%);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .footer.visible {
+            transform: translateY(0);
+        }
+
+        /* Footer Toggle Button (⏏) */
+        .footer-toggle-btn {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            font-size: 20px;
+            border-top-right-radius: 12px;
+            cursor: pointer;
+            z-index: 2001;
+        }
+
+        .footer-toggle-btn:hover {
+            background: #5a6268;
+        }
+
+        /* PDF Canvas Fit */
+        #pdfCanvas {
+            max-width: 100% !important;
+            height: auto !important;
+        }
     </style>
 </head>
 <body>
@@ -627,7 +692,7 @@
             </div>
 
             <div class="header-center">
-                <img src="https://lh3.googleusercontent.com/d/1DZvY_3ZsFrZg2JG4hCYv8iVaM4YfS6_e" alt="B10 Vartha Logo" class="app-logo">
+                <img src="https://lh3.googleusercontent.com/d1DZvY3ZsFrZg2JG4hCYv8iVaM4YfS6e" alt="B10 Vartha Logo" class="app-logo">
             </div>
 
             <button id="menuBtn" class="menu-toggle" title="Menu">☰</button>
@@ -638,15 +703,16 @@
         <div class="menu-header">
             <h2>Navigation</h2>
             <div style="display: flex; gap: 10px;">
-                <button class="share-btn" id="shareBtn" title="Share">📤</button>
+                <button class="share-btn" id="shareBtn" title="Share"></button>
                 <button id="closeMenuBtn" class="close-btn">✕</button>
             </div>
         </div>
+
         <nav class="menu-content">
-            <button class="menu-item" onclick="showPage('home')">📰 Home</button>
-            <button class="menu-item" onclick="showPage('aboutus')">ℹ️ About Us</button>
-            <button class="menu-item" onclick="showPage('privacy')">🔒 Privacy Policy</button>
-            <button class="menu-item" onclick="showPage('contact')">📞 Contact Us</button>
+            <button class="menu-item" onclick="showPage('home')">Home</button>
+            <button class="menu-item" onclick="showPage('aboutus')">About Us</button>
+            <button class="menu-item" onclick="showPage('privacy')">Privacy Policy</button>
+            <button class="menu-item" onclick="showPage('contact')">Contact Us</button>
         </nav>
     </div>
 
@@ -654,24 +720,24 @@
 
     <div id="qrModal" class="qr-modal">
         <div class="qr-modal-content">
-            <h2>సంపర్క కోడ్ స్కాన్ చేయండి</h2>
+            <h2></h2>
             <img src="https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/3df0291a-f540-4ca3-9c20-042f0e258195" alt="QR Code" id="qrCodeImage">
-            <p>epaperb10vartha.in కు చేరుకోవటానికి ఈ QR కోడ్ స్కాన్ చేయండి</p>
-            <button class="qr-modal-close" onclick="closeQRModal()">క్లోజ్</button>
+            <p>epaperb10vartha.in</p>
+            <button class="qr-modal-close" onclick="closeQRModal()">Close</button>
         </div>
     </div>
 
     <div class="main-content">
-        
         <div id="home" class="content-section active">
             <div class="selector-section">
                 <div class="selector-content">
                     <div class="edition-selector">
-                        <label for="editionSelect">📅 Select Edition:</label>
+                        <label for="editionSelect">Select Edition:</label>
                         <select id="editionSelect" class="edition-dropdown">
                             <option>Loading editions...</option>
                         </select>
                     </div>
+
                     <div class="info-display">
                         <span id="categoryInfo" class="badge">Category: Loading...</span>
                         <span id="pageCountInfo" class="badge">Pages: Loading...</span>
@@ -680,15 +746,15 @@
             </div>
 
             <div class="pdf-viewer-container">
-                <button class="nav-arrow nav-arrow-left" id="prevArrow" title="Previous Page">◄</button>
-                
+                <button class="nav-arrow nav-arrow-left" id="prevArrow" title="Previous Page">⏮</button>
+
                 <div class="pdf-canvas-wrapper">
                     <div id="errorMsg"></div>
                     <canvas id="pdfCanvas"></canvas>
-                    <div id="loadingMsg" class="loading" style="display:none;">⏳ Loading PDF...</div>
+                    <div id="loadingMsg" class="loading" style="display:none;">Loading PDF...</div>
                 </div>
 
-                <button class="nav-arrow nav-arrow-right" id="nextArrow" title="Next Page">►</button>
+                <button class="nav-arrow nav-arrow-right" id="nextArrow" title="Next Page">⏭</button>
             </div>
 
             <div style="text-align: center; padding: 20px; background: var(--light); font-size: 14px; color: var(--text);">
@@ -700,7 +766,7 @@
             <div class="content-page">
                 <h1>About Us</h1>
                 <p>epaperb10vartha.in is a Telugu online e-paper dedicated to delivering fast, reliable news to readers in their own language.</p>
-                
+
                 <p>It focuses on local news from towns and villages across Andhra Pradesh and Telangana, ensuring regional issues and voices are highlighted. At the same time, it covers major national developments from across India, helping readers stay informed about politics, economy, technology, and society.</p>
 
                 <p>International news is included so Telugu readers can easily follow important global events without language barriers. The platform aims to provide clear, unbiased coverage with a special emphasis on accuracy and credibility.</p>
@@ -711,72 +777,81 @@
 
         <div id="privacy" class="content-section">
             <div class="content-page">
-                <h1>🔒 Privacy Policy</h1>
-                <p>B10 Vartha respects your privacy and is committed to protecting it. This website is designed only to display Telugu news and related content. We do not require users to create an account, log in, or share any personal information to read our e‑paper.</p>
+                <h1>Privacy Policy</h1>
+
+                <p>B10 Vartha respects your privacy and is committed to protecting it. This website is designed only to display Telugu news and related content. We do not require users to create an account, log in, or share any personal information to read our e-paper.</p>
 
                 <p>We do not intentionally collect, store, or sell any personal data such as names, email addresses, phone numbers, or location details. Any information you choose to share with us voluntarily (for example, when contacting us by email or phone) will be used only to respond to your enquiry and will not be shared with third parties without your consent, except if required by law.</p>
 
-                <p>Our website may be hosted on third‑party servers or may use standard web technologies (such as basic server logs) for security and performance, but we do not use this information to identify individual users. If we ever change our data practices in the future, we will update this Privacy Policy and clearly inform users on this page.</p>
+                <p>Our website may be hosted on third-party servers or may use standard web technologies (such as basic server logs) for security and performance, but we do not use this information to identify individual users. If we ever change our data practices in the future, we will update this Privacy Policy and clearly inform users on this page.</p>
 
-                <p>By using this website, you agree to this Privacy Policy. If you have any questions, you can contact us at sekharbyiram@gmail.com or 9000607207.</p>
+                <p>By using this website, you agree to this Privacy Policy. If you have any questions, you can contact us at <a href="mailto:sekharbyiram@gmail.com">sekharbyiram@gmail.com</a> or <a href="tel:+919000607207">9000607207</a>.</p>
             </div>
         </div>
 
         <div id="contact" class="content-section">
             <div class="content-page">
                 <h1>Contact Us</h1>
+
                 <p>For any news tips, feedback, advertising inquiries, or general questions about B10 Vartha, please reach out to us using the details provided below.</p>
 
                 <h2>Contact Information</h2>
+
                 <p><strong>Email:</strong> <a href="mailto:sekharbyiram@gmail.com">sekharbyiram@gmail.com</a></p>
+
                 <p><strong>Phone / WhatsApp:</strong> <a href="https://wa.me/919000607207">+91 9000607207</a></p>
 
                 <p>We welcome story suggestions, corrections, partnership proposals, and general questions from our readers. Your feedback helps us improve our coverage and better serve the Telugu community.</p>
             </div>
         </div>
-
     </div>
 
-    <footer class="footer">
+    <footer class="footer" id="mainFooter">
         <div class="footer-content">
             <div class="footer-links">
-                <a href="#" onclick="showPage('home'); return false;">📰 Home</a>
+                <a href="#" onclick="showPage('home'); return false;">Home</a>
+                <span class="footer-divider">|</span>
                 <a href="#" onclick="showPage('aboutus'); return false;">About Us</a>
+                <span class="footer-divider">|</span>
                 <a href="#" onclick="showPage('privacy'); return false;">Privacy Policy</a>
+                <span class="footer-divider">|</span>
                 <a href="#" onclick="showPage('contact'); return false;">Contact Us</a>
             </div>
 
             <div class="social-icons">
-                <button class="social-icon" onclick="window.open('https://www.youtube.com/@B10newsAp/videos', '_blank')" title="YouTube">📺</button>
-                <button class="social-icon" onclick="window.open('https://ne-np.facebook.com/p/B10News-100086213201003/?hr=1', '_blank')" title="Facebook">📘</button>
+                <button class="social-icon" onclick="window.open('https://www.youtube.com/@B10newsApp/videos', '_blank')" title="YouTube">📺</button>
+                <button class="social-icon" onclick="window.open('https://www.facebook.com/pB10News-100086213201003/?hr=1', '_blank')" title="Facebook">f</button>
                 <button class="social-icon" onclick="window.open('https://wa.me/919000607207', '_blank')" title="WhatsApp">💬</button>
             </div>
 
             <div class="page-indicators" id="footerPageButtons">
-                <button class="page-indicator" onclick="jumpToPage(1)" id="pageBtn1">01</button>
-                <button class="page-indicator" onclick="jumpToPage(2)" id="pageBtn2">02</button>
-                <button class="page-indicator" onclick="jumpToPage(3)" id="pageBtn3">03</button>
-                <button class="page-indicator" onclick="jumpToPage(4)" id="pageBtn4">04</button>
+                <button class="page-indicator" onclick="jumpToPage(1)" id="pageBtn1">1</button>
+                <button class="page-indicator" onclick="jumpToPage(2)" id="pageBtn2">2</button>
+                <button class="page-indicator" onclick="jumpToPage(3)" id="pageBtn3">3</button>
+                <button class="page-indicator" onclick="jumpToPage(4)" id="pageBtn4">4</button>
             </div>
         </div>
+
         <div class="footer-copyright">
-            © epaperb10vartha.in
+            © 2024 epaperb10vartha.in
         </div>
     </footer>
 
+    <button id="footerToggle" class="footer-toggle-btn">⏏</button>
+
     <script>
-        // Configuration
-        const PDF_BASE_PATH = 'pages/';
-        const DATA_FILE = 'archive-index.json';
-        
-        // State
+        /* Configuration */
+        const PDF_BASE_PATH = 'https://ramuapplab.github.io/epaperb10vartha/pages/';
+        const DATA_FILE = 'https://ramuapplab.github.io/epaperb10vartha/archive-index.json';
+
+        /* State */
         let currentEdition = null;
-        let allEditions = [];
+        let allEditions;
         let currentPdfDoc = null;
         let currentPageNum = 1;
         let zoomLevel = 1;
 
-        // Initialize on page load
+        /* Initialize on page load */
         document.addEventListener('DOMContentLoaded', async () => {
             setupMenuListeners();
             setupQRModal();
@@ -784,7 +859,7 @@
             setupEventListeners();
         });
 
-        // MENU FUNCTIONALITY
+        /* MENU FUNCTIONALITY */
         function setupMenuListeners() {
             const menuBtn = document.getElementById('menuBtn');
             const closeMenuBtn = document.getElementById('closeMenuBtn');
@@ -811,29 +886,27 @@
             shareBtn.addEventListener('click', shareApp);
         }
 
-        // SHARE FUNCTION
+        /* SHARE FUNCTION */
         function shareApp() {
             const shareData = {
-                title: 'B10 వార్త - ఇ-పేపర్',
-                text: 'B10 Vartha | Daily Telugu E-Paper for Andhra Pradesh News',
-                url: window.location.href
+                title: 'B10 Vartha',
+                text: 'B10 Vartha - Daily Telugu E-Paper for Andhra Pradesh News',
+                url: window.location.href,
             };
 
             if (navigator.share) {
                 navigator.share(shareData)
-                    .catch((error) => console.log('Share cancelled:', error));
+                    .catch(error => console.log('Share cancelled', error));
             } else {
                 // Fallback: Copy to clipboard
-                const text = `B10 వార్త - ఇ-పేపర్\n${window.location.href}`;
-                navigator.clipboard.writeText(text).then(() => {
-                    alert('Link copied to clipboard! 📋');
-                }).catch(() => {
-                    alert('B10 Vartha - E-Paper\n' + window.location.href);
-                });
+                const text = 'B10 Vartha - ' + window.location.href;
+                navigator.clipboard.writeText(text)
+                    .then(() => alert('Link copied to clipboard!'))
+                    .catch(() => alert('B10 Vartha - ' + window.location.href));
             }
         }
 
-        // PAGE NAVIGATION
+        /* PAGE NAVIGATION */
         function showPage(pageId) {
             // Hide all sections
             document.querySelectorAll('.content-section').forEach(section => {
@@ -857,7 +930,7 @@
             }
         }
 
-        // QR CODE MODAL
+        /* QR CODE MODAL */
         function setupQRModal() {
             const qrToggle = document.getElementById('qrToggle');
             const qrModal = document.getElementById('qrModal');
@@ -877,15 +950,15 @@
             document.getElementById('qrModal').classList.remove('active');
         }
 
-        // LOAD EDITIONS
+        /* LOAD EDITIONS */
         async function loadEditions() {
             try {
                 const response = await fetch(DATA_FILE);
                 if (!response.ok) throw new Error('Failed to load archive-index.json');
-                
+
                 const data = await response.json();
-                allEditions = data.editions || [];
-                
+                allEditions = data.editions;
+
                 if (allEditions.length === 0) {
                     showError('No editions found. Please add PDFs and update archive-index.json');
                     return;
@@ -899,19 +972,22 @@
             }
         }
 
-        // POPULATE DROPDOWN
+        /* POPULATE DROPDOWN */
         function populateDropdown() {
             const dropdown = document.getElementById('editionSelect');
             dropdown.innerHTML = '';
-            
+
             allEditions.forEach((edition, index) => {
                 const option = document.createElement('option');
                 option.value = edition.date;
-                
+
                 let text = edition.displayDate || edition.date;
                 text += ` (${edition.pageCount} pages)`;
-                if (index === 0) text += ' ⭐ Latest';
-                
+
+                if (index === 0) {
+                    text += ' - Latest';
+                }
+
                 option.textContent = text;
                 dropdown.appendChild(option);
             });
@@ -919,9 +995,10 @@
             dropdown.addEventListener('change', (e) => loadEdition(e.target.value));
         }
 
-        // LOAD EDITION
+        /* LOAD EDITION */
         async function loadEdition(date) {
             currentEdition = allEditions.find(e => e.date === date);
+
             if (!currentEdition) {
                 showError('Edition not found');
                 return;
@@ -929,52 +1006,54 @@
 
             currentPageNum = 1;
             zoomLevel = 1;
-            
-            document.getElementById('categoryInfo').textContent = `📁 ${currentEdition.category}`;
-            document.getElementById('pageCountInfo').textContent = `📄 ${currentEdition.pageCount} pages`;
+
+            document.getElementById('categoryInfo').textContent = currentEdition.category;
+            document.getElementById('pageCountInfo').textContent = `${currentEdition.pageCount} pages`;
             document.getElementById('editionSelect').value = date;
-            
+
             await loadPdfPage(date, 1);
         }
 
-        // LOAD PDF PAGE - FIXED VERSION (For separate files page1.pdf, page2.pdf)
+        /* LOAD PDF PAGE - FIXED VERSION */
+        /* For separate files page1.pdf, page2.pdf, etc. */
         async function loadPdfPage(date, pageNum) {
             try {
                 document.getElementById('loadingMsg').style.display = 'block';
                 document.getElementById('pdfCanvas').style.display = 'none';
 
-                // Construct filename dynamically: page1.pdf, page2.pdf, etc.
+                /* Construct filename dynamically: page1.pdf, page2.pdf, etc. */
                 const basePath = PDF_BASE_PATH.endsWith('/') ? PDF_BASE_PATH : PDF_BASE_PATH + '/';
                 const pdfUrl = `${basePath}${date}/page${pageNum}.pdf`;
-                
-                const pdf = await pdfjsLib.getDocument(pdfUrl).promise;
-                currentPdfDoc = pdf; // This is the file for JUST this page
 
-                // We always render Page 1 of the loaded file because the file (page2.pdf)
-                // only contains that single page.
+                const pdf = await pdfjsLib.getDocument(pdfUrl).promise;
+                currentPdfDoc = pdf;
+
+                /* This is the file for JUST this page */
+                /* We always render Page 1 of the loaded file because the file page2.pdf only contains that single page. */
                 const page = await pdf.getPage(1);
 
+                // ---- SMART ZOOM LOGIC ----
+                const viewportRaw = page.getViewport({ scale: 1.0 });
+                const screenWidth = window.innerWidth;
+                let scale = (screenWidth - 20) / viewportRaw.width; // Fits width perfectly
+                if (scale > 1.5) scale = 1.5; // Limits size on large desktops
+
+                const viewport = page.getViewport({ scale: scale });
                 const canvas = document.getElementById('pdfCanvas');
                 const ctx = canvas.getContext('2d');
-                const viewport = page.getViewport({ scale: 1.5 * zoomLevel });
-
                 canvas.width = viewport.width;
                 canvas.height = viewport.height;
 
-                await page.render({
-                    canvasContext: ctx,
-                    viewport: viewport
-                }).promise;
+                await page.render({ canvasContext: ctx, viewport: viewport }).promise;
 
-                // Update page counter to show "Page X of Total" using the JSON count
+                /* Update page counter to show Page X of Total using the JSON count */
                 const totalPages = currentEdition ? currentEdition.pageCount : 1;
                 document.getElementById('pageCounter').textContent = `Page ${pageNum} of ${totalPages}`;
 
                 document.getElementById('loadingMsg').style.display = 'none';
                 document.getElementById('pdfCanvas').style.display = 'block';
-
-                // Update page buttons
                 updatePageButtons(totalPages);
+                window.scrollTo(0, 0); // Jumps back to top on page change
             } catch (error) {
                 showError(`Error loading page ${pageNum}: ${error.message}`);
                 document.getElementById('loadingMsg').style.display = 'none';
@@ -982,66 +1061,78 @@
             }
         }
 
-        // EVENT LISTENERS
+        /* EVENT LISTENERS */
         function setupEventListeners() {
             document.getElementById('nextArrow').addEventListener('click', nextPage);
             document.getElementById('prevArrow').addEventListener('click', prevPage);
         }
 
-        // PAGE NAVIGATION (Updated for separate files logic)
+        /* PAGE NAVIGATION - Updated for separate files logic */
         function nextPage() {
-            // Check against total pages from JSON, not the current PDF file
+            /* Check against total pages from JSON, not the current PDF file */
             const totalPages = currentEdition ? currentEdition.pageCount : 1;
+
             if (currentPageNum < totalPages) {
-                currentPageNum++; // Increment our tracker
+                currentPageNum++; /* Increment our tracker */
                 loadPdfPage(currentEdition.date, currentPageNum);
             }
         }
 
         function prevPage() {
             if (currentPageNum > 1) {
-                currentPageNum--; // Decrement our tracker
+                currentPageNum--; /* Decrement our tracker */
                 loadPdfPage(currentEdition.date, currentPageNum);
             }
         }
 
-        // JUMP TO PAGE
+        /* JUMP TO PAGE */
         function jumpToPage(pageNum) {
             const totalPages = currentEdition ? currentEdition.pageCount : 1;
-            if (pageNum > 0 && pageNum <= totalPages) {
-                currentPageNum = pageNum;
-                loadPdfPage(currentEdition.date, pageNum);
-            }
+
+            if (pageNum < 0) pageNum = 0;
+            if (pageNum > totalPages) pageNum = totalPages;
+
+            currentPageNum = pageNum;
+            loadPdfPage(currentEdition.date, pageNum);
         }
 
-        // UPDATE PAGE BUTTONS
+        /* UPDATE PAGE BUTTONS */
         function updatePageButtons(totalPages) {
             // Re-generate buttons if needed, or just update style
             const container = document.getElementById('footerPageButtons');
             container.innerHTML = ''; // Clear old buttons
-            
+
             for (let i = 1; i <= totalPages; i++) {
                 const btn = document.createElement('button');
                 btn.className = 'page-indicator';
                 btn.id = `pageBtn${i}`;
                 btn.textContent = i < 10 ? '0' + i : i;
                 btn.onclick = () => jumpToPage(i);
-                
+
                 // Highlight current page
                 if (i === currentPageNum) {
                     btn.style.background = 'white';
                     btn.style.color = 'var(--secondary)';
                 }
-                
+
                 container.appendChild(btn);
             }
         }
 
-        // ERROR MESSAGE
+        /* ERROR MESSAGE */
         function showError(message) {
             const errorEl = document.getElementById('errorMsg');
-            errorEl.innerHTML = `<div class="error-message">❌ ${message}</div>`;
+            errorEl.innerHTML = `<div class="error-message">${message}</div>`;
         }
+
+        /* Footer Toggle Switch */
+        const footerBtn = document.getElementById('footerToggle');
+        const footer = document.getElementById('mainFooter');
+
+        footerBtn.addEventListener('click', () => {
+            footer.classList.toggle('visible');
+            footerBtn.textContent = footer.classList.contains('visible') ? '▼' : '⏏';
+        });
     </script>
 </body>
 </html>
