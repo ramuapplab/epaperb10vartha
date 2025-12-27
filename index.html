@@ -6,7 +6,6 @@
     <meta name="description" content="B10 Vartha - Daily Telugu News E-Paper">
     <title>B10 Vartha - Daily Telugu News E-Paper</title>
     
-    <!-- PDF.js Library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
     <script>pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';</script>
     
@@ -621,25 +620,20 @@
     </style>
 </head>
 <body>
-    <!-- FIXED HEADER -->
     <header class="header">
         <div class="header-content">
-            <!-- Left: QR Code -->
             <div class="header-left">
                 <img src="https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/3df0291a-f540-4ca3-9c20-042f0e258195" alt="QR Code" class="qr-code" id="qrToggle" title="Click for QR Code">
             </div>
 
-            <!-- Center: B10 Vartha Logo -->
             <div class="header-center">
                 <img src="https://lh3.googleusercontent.com/d/1DZvY_3ZsFrZg2JG4hCYv8iVaM4YfS6_e" alt="B10 Vartha Logo" class="app-logo">
             </div>
 
-            <!-- Right: Menu Button -->
             <button id="menuBtn" class="menu-toggle" title="Menu">☰</button>
         </div>
     </header>
 
-    <!-- SIDE MENU -->
     <div id="sideMenu" class="side-menu">
         <div class="menu-header">
             <h2>Navigation</h2>
@@ -656,10 +650,8 @@
         </nav>
     </div>
 
-    <!-- MENU OVERLAY -->
     <div id="menuOverlay" class="menu-overlay"></div>
 
-    <!-- QR MODAL -->
     <div id="qrModal" class="qr-modal">
         <div class="qr-modal-content">
             <h2>సంపర్క కోడ్ స్కాన్ చేయండి</h2>
@@ -669,12 +661,9 @@
         </div>
     </div>
 
-    <!-- MAIN CONTENT AREA -->
     <div class="main-content">
         
-        <!-- HOME PAGE (PDF Viewer) -->
         <div id="home" class="content-section active">
-            <!-- SELECTOR (Sticky below header) -->
             <div class="selector-section">
                 <div class="selector-content">
                     <div class="edition-selector">
@@ -690,7 +679,6 @@
                 </div>
             </div>
 
-            <!-- PDF VIEWER WITH ARROWS -->
             <div class="pdf-viewer-container">
                 <button class="nav-arrow nav-arrow-left" id="prevArrow" title="Previous Page">◄</button>
                 
@@ -703,13 +691,11 @@
                 <button class="nav-arrow nav-arrow-right" id="nextArrow" title="Next Page">►</button>
             </div>
 
-            <!-- Page Info -->
             <div style="text-align: center; padding: 20px; background: var(--light); font-size: 14px; color: var(--text);">
                 <span id="pageCounter">Page 1 of 1</span>
             </div>
         </div>
 
-        <!-- ABOUT US PAGE -->
         <div id="aboutus" class="content-section">
             <div class="content-page">
                 <h1>About Us</h1>
@@ -717,13 +703,12 @@
                 
                 <p>It focuses on local news from towns and villages across Andhra Pradesh and Telangana, ensuring regional issues and voices are highlighted. At the same time, it covers major national developments from across India, helping readers stay informed about politics, economy, technology, and society.</p>
 
-                <p>International news is also included so Telugu readers can easily follow important global events without language barriers. The platform aims to provide clear, unbiased coverage with a special emphasis on accuracy and credibility.</p>
+                <p>International news is included so Telugu readers can easily follow important global events without language barriers. The platform aims to provide clear, unbiased coverage with a special emphasis on accuracy and credibility.</p>
 
                 <p>Designed as a digital e-paper, it offers a newspaper-like reading experience that works smoothly on mobiles, tablets, and desktops. The vision of epaperb10vartha.in is to make quality journalism accessible to every Telugu speaker, wherever they live.</p>
             </div>
         </div>
 
-        <!-- PRIVACY POLICY PAGE -->
         <div id="privacy" class="content-section">
             <div class="content-page">
                 <h1>🔒 Privacy Policy</h1>
@@ -737,7 +722,6 @@
             </div>
         </div>
 
-        <!-- CONTACT US PAGE -->
         <div id="contact" class="content-section">
             <div class="content-page">
                 <h1>Contact Us</h1>
@@ -753,7 +737,6 @@
 
     </div>
 
-    <!-- FIXED FOOTER -->
     <footer class="footer">
         <div class="footer-content">
             <div class="footer-links">
@@ -783,7 +766,7 @@
 
     <script>
         // Configuration
-        const PDF_BASE_PATH = 'pages';
+        const PDF_BASE_PATH = 'pages/';
         const DATA_FILE = 'archive-index.json';
         
         // State
@@ -954,85 +937,51 @@
             await loadPdfPage(date, 1);
         }
 
-        // LOAD PDF PAGE
         // LOAD PDF PAGE - FIXED VERSION
-async function loadPdfPage(date, pageNum) {
-    try {
-        document.getElementById('loadingMsg').style.display = 'block';
-        document.getElementById('pdfCanvas').style.display = 'none';
-
-        const pdfUrl = `${PDF_BASE_PATH}${date}/page${pageNum}.pdf`;
-        const pdf = await pdfjsLib.getDocument(pdfUrl).promise;
-        currentPdfDoc = pdf;
-
-        // Validate page number
-        if (pageNum > pdf.numPages) {
-            pageNum = pdf.numPages;
-        }
-
-        currentPageNum = pageNum;
-
-        const page = await pdf.getPage(pageNum);
-        const canvas = document.getElementById('pdfCanvas');
-        const ctx = canvas.getContext('2d');
-        const viewport = page.getViewport({ scale: 1.5 * zoomLevel });
-
-        canvas.width = viewport.width;
-        canvas.height = viewport.height;
-
-        await page.render({
-            canvasContext: ctx,
-            viewport: viewport
-        }).promise;
-
-        // Update page counter - FIXED
-        document.getElementById('pageCounter').textContent = `Page ${pageNum} of ${pdf.numPages}`;
-
-        document.getElementById('loadingMsg').style.display = 'none';
-        document.getElementById('pdfCanvas').style.display = 'block';
-
-        // Update page buttons
-        updatePageButtons(pdf.numPages);
-    } catch (error) {
-        showError(`Error loading PDF: ${error.message}`);
-        document.getElementById('loadingMsg').style.display = 'none';
-    }
-}
-
+        async function loadPdfPage(date, pageNum) {
             try {
                 document.getElementById('loadingMsg').style.display = 'block';
                 document.getElementById('pdfCanvas').style.display = 'none';
+
+                // Fix path: ensure trailing slash if missing
+                const basePath = PDF_BASE_PATH.endsWith('/') ? PDF_BASE_PATH : PDF_BASE_PATH + '/';
+                const pdfUrl = `${basePath}${date}/page${pageNum}.pdf`;
                 
-                const pdfUrl = `${PDF_BASE_PATH}/${date}/page${pageNum}.pdf`;
                 const pdf = await pdfjsLib.getDocument(pdfUrl).promise;
-                
                 currentPdfDoc = pdf;
-                
+
+                // Validate page number
                 if (pageNum > pdf.numPages) {
                     pageNum = pdf.numPages;
                 }
-                
+
                 currentPageNum = pageNum;
-                
+
                 const page = await pdf.getPage(pageNum);
                 const canvas = document.getElementById('pdfCanvas');
                 const ctx = canvas.getContext('2d');
-                
                 const viewport = page.getViewport({ scale: 1.5 * zoomLevel });
+
                 canvas.width = viewport.width;
                 canvas.height = viewport.height;
-                
-                await page.render({ canvasContext: ctx, viewport: viewport }).promise;
-                
+
+                await page.render({
+                    canvasContext: ctx,
+                    viewport: viewport
+                }).promise;
+
+                // Update page counter
                 document.getElementById('pageCounter').textContent = `Page ${pageNum} of ${pdf.numPages}`;
+
                 document.getElementById('loadingMsg').style.display = 'none';
                 document.getElementById('pdfCanvas').style.display = 'block';
-                
+
                 // Update page buttons
                 updatePageButtons(pdf.numPages);
             } catch (error) {
                 showError(`Error loading PDF: ${error.message}`);
                 document.getElementById('loadingMsg').style.display = 'none';
+                console.error(error);
             }
         }
 
