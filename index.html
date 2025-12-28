@@ -685,6 +685,37 @@
             max-width: 100% !important;
             height: auto !important;
         }
+    /* Category Navigation Bar */
+.category-bar {
+  display: flex;
+  gap: 15px;
+  padding: 12px 20px;
+  background-color: #1a1a1a;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.category-btn {
+  color: #ffffff;
+  text-decoration: none;
+  padding: 6px 16px;
+  border-radius: 6px;
+  font-size: 15px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  background-color: transparent;
+}
+
+.category-btn:hover {
+  background-color: rgba(47, 150, 240, 0.3);
+}
+
+.category-btn.active {
+  background-color: #2f96f0;
+  color: #000000;
+}
+
+    
     </style>
 </head>
 <body>
@@ -701,6 +732,17 @@
             <button id="menuBtn" class="menu-toggle" title="Menu">☰</button>
         </div>
     </header>
+
+    <!-- Category Navigation Bar -->
+<div class="category-bar">
+  <a href="https://www.b10vartha.in/search/label/%E0%B0%9C%E0%B0%BE%E0%B0%A4%E0%B1%80%E0%B0%AF%E0%B0%82" class="category-btn">జాతీయం</a>
+  <a href="https://www.b10vartha.in/search/label/%E0%B0%85%E0%B0%82%E0%B0%A4%E0%B0%B0%E0%B1%8D%E0%B0%9C%E0%B0%BE%E0%B0%A4%E0%B1%80%E0%B0%AF%E0%B0%82" class="category-btn">అంతర్జాతీయం</a>
+  <a href="https://www.b10vartha.in/search/label/%E0%B0%B0%E0%B0%BE%E0%B0%9C%E0%B0%95%E0%B1%80%E0%B0%AF%E0%B0%BE%E0%B0%B2%E0%B1%81" class="category-btn">రాజకీయాలు</a>
+  <a href="https://www.b10vartha.in/search/label/%E0%B0%86%E0%B0%B0%E0%B1%8B%E0%B0%97%E0%B1%8D%E0%B0%AF%E0%B0%82" class="category-btn">ఆరోగ్యం</a>
+  <a href="https://www.b10vartha.in/search/label/%E0%B0%86%E0%B0%9F%E0%B0%B2%E0%B1%81" class="category-btn">ఆటలు</a>
+  <a href="https://www.b10vartha.in/search/label/%E0%B0%B5%E0%B0%BE%E0%B0%A4%E0%B0%BE%E0%B0%B5%E0%B0%B0%E0%B0%A3%E0%B0%82" class="category-btn">వాతావరణం</a>
+</div>
+
 
     <div id="sideMenu" class="side-menu">
         <div class="menu-header">
@@ -1052,10 +1094,7 @@
                 /* Update page counter to show Page X of Total using the JSON count */
                 const totalPages = currentEdition ? currentEdition.pageCount : 1;
                 document.getElementById('pageCounter').textContent = `Page ${pageNum} of ${totalPages}`;
-                        
-        // Preload adjacent pages for faster navigation
-        preloadAdjacentPages(date, pageNum, currentEdition.pageCount);
-
+                
 
                 document.getElementById('loadingMsg').style.display = 'none';
                 document.getElementById('pdfCanvas').style.display = 'block';
@@ -1169,5 +1208,20 @@ function preloadAdjacentPages(date, currentPage, totalPages) {
             footerBtn.textContent = footer.classList.contains('visible') ? '▼' : '⏏';
         });
     </script>
+<!-- Category Button Click Handler -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const categoryButtons = document.querySelectorAll('.category-btn');
+  
+  categoryButtons.forEach(button => {
+    button.addEventListener('click', function(e) {
+      categoryButtons.forEach(btn => btn.classList.remove('active'));
+      this.classList.add('active');
+    });
+  });
+});
+</script>
+
+
 </body>
 </html>
