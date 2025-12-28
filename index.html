@@ -1052,6 +1052,10 @@
                 /* Update page counter to show Page X of Total using the JSON count */
                 const totalPages = currentEdition ? currentEdition.pageCount : 1;
                 document.getElementById('pageCounter').textContent = `Page ${pageNum} of ${totalPages}`;
+                        
+        // Preload adjacent pages for faster navigation
+        preloadAdjacentPages(date, pageNum, currentEdition.pageCount);
+
 
                 document.getElementById('loadingMsg').style.display = 'none';
                 document.getElementById('pdfCanvas').style.display = 'block';
@@ -1063,6 +1067,34 @@
                 console.error(error);
             }
         }
+
+        
+// Preload next and previous PDFs for instant page switching
+function preloadAdjacentPages(date, currentPage, totalPages) {
+    const pdfFolder = `pages/${date}`;
+    
+    // Remove old preload links
+    document.querySelectorAll('link[rel="prefetch"]').forEach(link => link.remove());
+    
+    // Preload next page
+    if (currentPage < totalPages) {
+        const nextPdfUrl = `${pdfFolder}/page${currentPage + 1}.pdf`;
+        const nextLink = document.createElement('link');
+        nextLink.rel = 'prefetch';
+        nextLink.href = nextPdfUrl;
+        document.head.appendChild(nextLink);
+    }
+    
+    // Preload previous page
+    if (currentPage > 1) {
+        const prevPdfUrl = `${pdfFolder}/page${currentPage - 1}.pdf`;
+        const prevLink = document.createElement('link');
+        prevLink.rel = 'prefetch';
+        prevLink.href = prevPdfUrl;
+        document.head.appendChild(prevLink);
+    }
+}
+
 
         /* EVENT LISTENERS */
         function setupEventListeners() {
