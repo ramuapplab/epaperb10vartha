@@ -102,6 +102,18 @@
     height: 100%;
 }
 
+/* Remove gap below header */
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.main-content {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+
 
         .app-logo {
             height: 45px;
@@ -690,11 +702,16 @@
     /* Category Navigation Bar */
 .category-bar {
   display: flex;
-  gap: 15px;
-  padding: 12px 20px;
-  background-color: #ffffff;
+  gap: 8px;
   overflow-x: auto;
   white-space: nowrap;
+  flex: 1;
+  scrollbar-width: none;  /* Hide scrollbar Firefox */
+  -ms-overflow-style: none;  /* Hide scrollbar IE/Edge */
+}
+
+.category-bar::-webkit-scrollbar {
+  display: none;  /* Hide scrollbar Chrome/Safari */
 }
 
 .category-btn {
@@ -719,9 +736,11 @@
 .category-header {
   display: flex;
   align-items: center;
-  padding: 6px 20px;
+  padding: 4px 10px;  /* Super tight */
   background-color: #ffffff;
+  margin-top: 45px;  /* Match header height - no gap */
 }
+
 
 .home-emoji {
   font-size: 24px;
