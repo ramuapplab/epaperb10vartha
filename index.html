@@ -47,59 +47,61 @@
             padding: 0 20px;
         }
 
-        /* FIXED HEADER */
-        .header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            background: white;
-            color: white;
-            padding: 8px 0;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            z-index: 1000;
-            border-bottom: 1px solid var(--border);
-        }
 
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 15px;
-            height: 60px;
-        }
+        /* FIXED HEADER - TIGHT PACKED */
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: white;
+    color: white;
+    padding: 3px 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    border-bottom: 1px solid var(--border);
+}
 
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            z-index: 2;
-        }
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+    height: 45px;
+}
 
-        .qr-code {
-            width: 40px;
-            height: 40px;
-            border-radius: 4px;
-            cursor: pointer;
-            background: white;
-            padding: 2px;
-            transition: transform 0.3s;
-        }
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    z-index: 2;
+}
 
-        .qr-code:hover {
-            transform: scale(1.05);
-        }
+.qr-code {
+    width: 32px;
+    height: 32px;
+    border-radius: 4px;
+    cursor: pointer;
+    background: white;
+    padding: 2px;
+    transition: transform 0.3s;
+}
 
-        /* Centered Logo Container - B10 Vartha Logo */
-        .header-center {
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100%;
-        }
+.qr-code:hover {
+    transform: scale(1.05);
+}
+
+/* Centered Logo Container - B10 Vartha Logo */
+.header-center {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
 
         .app-logo {
             height: 45px;
@@ -717,7 +719,7 @@
 .category-header {
   display: flex;
   align-items: center;
-  padding: 12px 20px;
+  padding: 6px 20px;
   background-color: #ffffff;
 }
 
@@ -732,8 +734,8 @@
   background-color: #2f96f0;
   color: #ffffff;
   font-weight: bold;
-  font-size: 16px;
-  padding: 8px 0;
+  font-size: 14px;
+  padding: 4px 0;
   border-top: 2px solid #2680c9;
   border-bottom: 2px solid #2680c9;
 }
