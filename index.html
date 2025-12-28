@@ -27,13 +27,15 @@
             box-sizing: border-box;
         }
 
-        html, body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            color: var(--text);
-            background: var(--bg);
-            line-height: 1.6;
-            overflow-x: hidden; /* Fixes side-scrolling on mobile */
-        }
+        html,body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: var(--text);
+    background: var(--bg);
+    line-height: 1.6;
+    overflow-x: hidden; /* Fixes side-scrolling on mobile */
+    margin: 0;
+    padding: 0;
+}
 
         body {
             padding-top: 75px;
@@ -48,7 +50,7 @@
         }
 
 
-        /* FIXED HEADER - TIGHT PACKED */
+   /* FIXED HEADER - TIGHT PACKED */ 
 .header {
     position: fixed;
     top: 0;
@@ -56,7 +58,8 @@
     right: 0;
     background: white;
     color: white;
-    padding: 3px 0;
+    padding: 0;
+    margin: 0;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     z-index: 1000;
     border-bottom: 1px solid var(--border);
@@ -736,10 +739,11 @@ body {
 .category-header {
   display: flex;
   align-items: center;
-  padding: 4px 10px;  /* Super tight */
+  padding: 0;
   background-color: #ffffff;
-  margin-top: 45px;  /* Match header height - no gap */
+  margin-top: 45px;
 }
+
 
 
 .home-emoji {
