@@ -868,7 +868,7 @@ body {
                 <div class="pdf-canvas-wrapper">
                     <div id="errorMsg"></div>
                     <canvas id="pdfCanvas"></canvas>
-                    <div id="loadingMsg" class="loading" style="display:none;">Loading PDF...</div>
+                    <div id="loadingMsg" class="loading" style="display:none;"></div>
                 </div>
 
                 <button class="nav-arrow nav-arrow-right" id="nextArrow" title="Next Page">⏭</button>
@@ -1144,7 +1144,7 @@ body {
         /* For separate files page1.pdf, page2.pdf, etc. */
         async function loadPdfPage(date, pageNum) {
             try {
-                document.getElementById('loadingMsg').style.display = 'block';
+               // document.getElementById('loadingMsg').style.display = 'block';
                 document.getElementById('pdfCanvas').style.display = 'none';
 
                 /* Construct filename dynamically: page1.pdf, page2.pdf, etc. */
