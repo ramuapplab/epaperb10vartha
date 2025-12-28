@@ -957,6 +957,15 @@ body {
     <button id="footerToggle" class="footer-toggle-btn">⏏</button>
 
     <script>
+                // Page Flip Sound Effect
+        const pageFlipSound = new Audio('sounds/page-flip.mp3');
+        pageFlipSound.volume = 0.3; // 30% volume
+
+        function playPageFlip() {
+            pageFlipSound.currentTime = 0;
+            pageFlipSound.play().catch(e => console.log('Audio play failed:', e));
+        }
+
         /* Configuration */
         const PDF_BASE_PATH = 'https://ramuapplab.github.io/epaperb10vartha/pages/';
         const DATA_FILE = 'https://ramuapplab.github.io/epaperb10vartha/archive-index.json';
@@ -1215,6 +1224,8 @@ function preloadAdjacentPages(date, currentPage, totalPages) {
 
         /* PAGE NAVIGATION - Updated for separate files logic */
         function nextPage() {
+                        playPageFlip();
+
             /* Check against total pages from JSON, not the current PDF file */
             const totalPages = currentEdition ? currentEdition.pageCount : 1;
 
@@ -1224,7 +1235,9 @@ function preloadAdjacentPages(date, currentPage, totalPages) {
             }
         }
 
+
         function prevPage() {
+                        playPageFlip();
             if (currentPageNum > 1) {
                 currentPageNum--; /* Decrement our tracker */
                 loadPdfPage(currentEdition.date, currentPageNum);
