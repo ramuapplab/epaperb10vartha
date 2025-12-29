@@ -967,8 +967,9 @@ body {
         }
 
         /* Configuration */
-        const PDF_BASE_PATH = 'https://ramuapplab.github.io/epaperb10vartha/pages/';
-        const DATA_FILE = 'https://ramuapplab.github.io/epaperb10vartha/archive-index.json';
+        const PDF_BASE_PATH = `${window.location.origin}/pages/`;
+        const DATA_FILE = `${window.location.origin}/archive-index.json`;
+
 
         /* State */
         let currentEdition = null;
