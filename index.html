@@ -1322,6 +1322,60 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
+<script>
+// Auto-generate preview from latest PDF Page 1
+async function updatePreviewImage() {
+  try {
+    const response = await fetch('archive-index.json');
+    const data = await response.json();
+    const latestEdition = data.editions[0]; // First = Latest
+    
+    // Load latest Page 1
+    const pdfUrl = `pages/${latestEdition.date}/page1.pdf`;
+    const pdf = await pdfjsLib.getDocument(pdfUrl).promise;
+    const page = await pdf.getPage(1);
+    
+    // Render to canvas
+    const viewport = page.getViewport({ scale: 2.0 });
+    const canvas = document.createElement('canvas');
+    canvas.width = 1200;
+    canvas.height = 630;
+    const ctx = canvas.getContext('2d');
+    
+    // White background
+    ctx.fillStyle = 'white';
+    ctx.fillRect(0, 0, 1200, 630);
+    
+    // Draw PDF (fit to 1200x630)
+    const scale = Math.min(1200/viewport.width, 630/viewport.height);
+    const scaledViewport = page.getViewport({ scale: scale });
+    
+    await page.render({
+      canvasContext: ctx,
+      viewport: scaledViewport
+    }).promise;
+    
+    // Convert to image and download
+    canvas.toBlob(blob => {
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'preview-small.png';
+      a.click();
+      alert('Preview image downloaded! Now upload it to replace the old preview-small.png');
+    }, 'image/png');
+    
+  } catch (error) {
+    console.error('Preview generation failed:', error);
+    alert('Error: ' + error.message);
+  }
+}
+
+// Run on page load (only for admin, add a check)
+if (window.location.hash === '#updatepreview') {
+  updatePreviewImage();
+}
+</script>
 
 </body>
 </html>
