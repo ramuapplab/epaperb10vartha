@@ -1188,7 +1188,7 @@ body {
                 if (baseScale > 1.5) baseScale = 1.5; // Limit on large desktops
                 
                 // Apply high-quality scale (2x to 3x for retina)
-                const qualityScale = baseScale * Math.min(devicePixelRatio, 2.5);
+                const qualityScale = baseScale * Math.min(devicePixelRatio, 3.5);
                 
                 // Render at high quality
                 const viewport = page.getViewport({ scale: qualityScale });
