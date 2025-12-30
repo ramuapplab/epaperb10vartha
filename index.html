@@ -1157,14 +1157,15 @@ body {
 
         /* LOAD PDF PAGE - FIXED VERSION */
         /* For separate files page1.pdf, page2.pdf, etc. */
+        /* LOAD PDF PAGE - HIGH QUALITY VERSION WITH ZOOM SUPPORT */
+        /* For separate files page1.pdf, page2.pdf, etc. */
         async function loadPdfPage(date, pageNum) {
             try {
-               // document.getElementById('loadingMsg').style.display = 'block';
                 document.getElementById('pdfCanvas').style.display = 'none';
 
                 /* Construct filename dynamically: page1.pdf, page2.pdf, etc. */
                 const basePath = PDF_BASE_PATH.endsWith('/') ? PDF_BASE_PATH : PDF_BASE_PATH + '/';
-             const pdfUrl = `${basePath}${date}/page${pageNum}.pdf?cache=${Date.now()}`;
+                const pdfUrl = `${basePath}${date}/page${pageNum}.pdf?cache=${Date.now()}`;
 
                 const pdf = await pdfjsLib.getDocument(pdfUrl).promise;
                 currentPdfDoc = pdf;
@@ -1173,24 +1174,42 @@ body {
                 /* We always render Page 1 of the loaded file because the file page2.pdf only contains that single page. */
                 const page = await pdf.getPage(1);
 
-                // ---- SMART ZOOM LOGIC ----
-                const viewportRaw = page.getViewport({ scale: 1.0 });
-                const screenWidth = window.innerWidth;
-                let scale = (screenWidth - 20) / viewportRaw.width; // Fits width perfectly
-                if (scale > 1.5) scale = 1.5; // Limits size on large desktops
-
-                const viewport = page.getViewport({ scale: scale });
+                // ---- HIGH QUALITY RENDERING WITH RETINA SUPPORT ----
                 const canvas = document.getElementById('pdfCanvas');
                 const ctx = canvas.getContext('2d');
+                
+                // Get device pixel ratio for retina displays
+                const devicePixelRatio = window.devicePixelRatio || 1;
+                
+                // Calculate base scale to fit screen width
+                const viewportRaw = page.getViewport({ scale: 1.0 });
+                const screenWidth = window.innerWidth;
+                let baseScale = (screenWidth - 20) / viewportRaw.width;
+                if (baseScale > 1.5) baseScale = 1.5; // Limit on large desktops
+                
+                // Apply high-quality scale (2x to 3x for retina)
+                const qualityScale = baseScale * Math.min(devicePixelRatio, 2.5);
+                
+                // Render at high quality
+                const viewport = page.getViewport({ scale: qualityScale });
+                
+                // Set canvas internal size (high resolution)
                 canvas.width = viewport.width;
                 canvas.height = viewport.height;
+                
+                // Set canvas display size (fits screen)
+                canvas.style.width = `${viewport.width / devicePixelRatio}px`;
+                canvas.style.height = `${viewport.height / devicePixelRatio}px`;
+                
+                // Enable high-quality rendering
+                ctx.imageSmoothingEnabled = true;
+                ctx.imageSmoothingQuality = 'high';
 
                 await page.render({ canvasContext: ctx, viewport: viewport }).promise;
 
                 /* Update page counter to show Page X of Total using the JSON count */
                 const totalPages = currentEdition ? currentEdition.pageCount : 1;
                 document.getElementById('pageCounter').textContent = `Page ${pageNum} of ${totalPages}`;
-                
 
                 document.getElementById('loadingMsg').style.display = 'none';
                 document.getElementById('pdfCanvas').style.display = 'block';
