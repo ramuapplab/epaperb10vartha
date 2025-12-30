@@ -1164,7 +1164,7 @@ body {
 
                 /* Construct filename dynamically: page1.pdf, page2.pdf, etc. */
                 const basePath = PDF_BASE_PATH.endsWith('/') ? PDF_BASE_PATH : PDF_BASE_PATH + '/';
-                const pdfUrl = `${basePath}${date}/page${pageNum}.pdf`;
+             const pdfUrl = `${basePath}${date}/page${pageNum}.pdf?cache=${Date.now()}`;
 
                 const pdf = await pdfjsLib.getDocument(pdfUrl).promise;
                 currentPdfDoc = pdf;
