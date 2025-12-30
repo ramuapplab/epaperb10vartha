@@ -1336,7 +1336,7 @@ async function updatePreviewImage() {
     const page = await pdf.getPage(1);
     
     // Render to canvas
-    const viewport = page.getViewport({ scale: 2.5 });
+    const viewport = page.getViewport({ scale: 2.0 });
     const canvas = document.createElement('canvas');
     canvas.width = 1200;
     canvas.height = 630;
